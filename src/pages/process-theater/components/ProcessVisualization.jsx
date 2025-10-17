@@ -79,17 +79,17 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
   const getConnectionPath = (from, to) => {
     const fromNode = processNodes?.find(n => n?.id === from);
     const toNode = processNodes?.find(n => n?.id === to);
-    
+
     if (!fromNode || !toNode) return '';
-    
+
     const x1 = fromNode?.position?.x;
     const y1 = fromNode?.position?.y;
     const x2 = toNode?.position?.x;
     const y2 = toNode?.position?.y;
-    
+
     const midX = (x1 + x2) / 2;
     const midY = Math.min(y1, y2) - 10;
-    
+
     return `M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`;
   };
 
@@ -105,6 +105,11 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
         <p className="text-sm md:text-base text-glass-text-secondary px-4">
           Interactive pipeline showing your project's journey through our methodology
         </p>
+        <div className="mt-3 text-center">
+          <p className="text-sm text-glass-text-secondary">
+            <strong className="text-glass-text-primary">Tip:</strong> Click any stage below to view more details about that step in the process.
+          </p>
+        </div>
       </div>
       {/* Main Visualization Container */}
       <div className="relative w-full h-64 md:h-96 glass-surface rounded-xl overflow-hidden">
@@ -134,6 +139,7 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
           ))}
         </div>
 
+
         {/* SVG Pipeline */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <defs>
@@ -142,7 +148,7 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
               <stop offset="50%" stopColor="rgb(139, 92, 246)" stopOpacity="0.5" />
               <stop offset="100%" stopColor="rgb(236, 72, 153)" stopOpacity="0.3" />
             </linearGradient>
-            
+
             <linearGradient id="activeFlow" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="rgb(59, 130, 246)" />
               <stop offset="50%" stopColor="rgb(139, 92, 246)" />
@@ -151,11 +157,11 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
           </defs>
 
           {/* Pipeline Connections */}
-          {processNodes?.map((node, index) => 
+          {processNodes?.map((node, index) =>
             node?.connections?.map(connectionId => {
               const connectionIndex = processNodes?.findIndex(n => n?.id === connectionId);
               const isActive = index <= activeStage && connectionIndex <= activeStage;
-              
+
               return (
                 <g key={`${node?.id}-${connectionId}`}>
                   {/* Background Path */}
@@ -185,13 +191,13 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
           )}
 
           {/* Flowing Data Points */}
-          {processNodes?.map((node, index) => 
+          {processNodes?.map((node, index) =>
             node?.connections?.map(connectionId => {
               const connectionIndex = processNodes?.findIndex(n => n?.id === connectionId);
               const isActive = index <= activeStage && connectionIndex <= activeStage;
-              
+
               if (!isActive) return null;
-              
+
               return (
                 <motion.circle
                   key={`flow-${node?.id}-${connectionId}`}
@@ -250,13 +256,12 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
                 />
               )}
 
-              <div className={`relative w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 z-10 ${
-                isNodeCurrent(index)
+              <div className={`relative w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 z-10 ${isNodeCurrent(index)
                   ? 'glass-interactive shadow-glass-interactive scale-105'
                   : isNodeActive(index)
-                  ? `bg-gradient-to-br ${node?.color} text-white shadow-glass`
-                  : 'glass-surface text-glass-text-secondary'
-              }`}>
+                    ? `bg-gradient-to-br ${node?.color} text-white shadow-glass`
+                    : 'glass-surface text-glass-text-secondary'
+                }`}>
                 <Icon name={node?.icon} size={16} className="md:w-5 md:h-5" />
               </div>
 
@@ -270,9 +275,8 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
 
             {/* Node Label */}
             <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 text-center">
-              <div className={`text-xs font-medium whitespace-nowrap ${
-                isNodeCurrent(index) ? 'text-primary' : 'text-glass-text-secondary'
-              }`}>
+              <div className={`text-xs font-medium whitespace-nowrap ${isNodeCurrent(index) ? 'text-primary' : 'text-glass-text-secondary'
+                }`}>
                 {node?.name}
               </div>
             </div>
@@ -323,6 +327,7 @@ const ProcessVisualization = ({ activeStage, projectType, onNodeClick }) => {
           <span className="text-xs text-glass-text-secondary">Current</span>
         </div>
       </div>
+
     </div>
   );
 };

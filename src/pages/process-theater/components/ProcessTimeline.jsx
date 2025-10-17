@@ -47,6 +47,13 @@ const ProcessTimeline = ({ activeStage = 0, totalStages: totalProp, onTimelineCl
           </span>
         </div>
       </div>
+      <div className="mt-3 text-center">
+        <p className="text-sm text-glass-text-secondary">
+          <strong className="text-glass-text-primary">Tip:</strong> Click any stage below to view more details about that step in the process.
+        </p>
+      </div>
+      <br/>
+      <br/>
       {/* Timeline Visualization */}
       <div className="relative">
         {/* Background Pipeline */}
@@ -57,9 +64,9 @@ const ProcessTimeline = ({ activeStage = 0, totalStages: totalProp, onTimelineCl
             animate={{ width: `${((activeStage + 1) / totalStages) * 100}%` }}
             transition={{ duration: 1, ease: "easeInOut" }}
           />
-          
+
           {/* Flowing Animation */}
-          <div 
+          <div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full"
             style={{
               transform: `translateX(${animationProgress * 200 - 50}%)`,
@@ -100,20 +107,18 @@ const ProcessTimeline = ({ activeStage = 0, totalStages: totalProp, onTimelineCl
                   />
                 )}
 
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all duration-300 relative z-10 ${
-                  index <= internalActive
+                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all duration-300 relative z-10 ${index <= internalActive
                     ? `bg-gradient-to-br ${stage?.color} text-white shadow-glass`
                     : 'glass-surface text-glass-text-secondary hover:text-primary'
-                }`}>
+                  }`}>
                   <Icon name={stage?.icon} size={14} className="md:w-[18px] md:h-[18px]" />
                 </div>
               </div>
 
               {/* Stage Label */}
               <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 text-center">
-                <div className={`text-xs font-medium whitespace-nowrap ${
-                  index === internalActive ? 'text-primary' : 'text-glass-text-secondary'
-                }`}>
+                <div className={`text-xs font-medium whitespace-nowrap ${index === internalActive ? 'text-primary' : 'text-glass-text-secondary'
+                  }`}>
                   {stage?.name}
                 </div>
                 <div className="text-xs text-glass-text-secondary font-mono">

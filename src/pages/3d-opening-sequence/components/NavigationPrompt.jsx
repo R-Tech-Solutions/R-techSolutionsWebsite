@@ -9,9 +9,10 @@ const NavigationPrompt = ({ isVisible, onExplore, isMobile = false, shouldReduce
     {
       title: "Portfolio",
       description: "Explore our crafted digital experiences",
-      path: "/portfolio",    
+      path: "/portfolio",
       icon: "Layers",
       color: "from-primary to-primary/70"
+      
     },
     {
       title: "Services",
@@ -123,57 +124,65 @@ const NavigationPrompt = ({ isVisible, onExplore, isMobile = false, shouldReduce
           className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-6 sm:mb-8 md:mb-10 lg:mb-12"
           variants={containerVariants}
         >
-          {navigationItems?.map((item, index) => (
-            <motion.div
-              key={item?.path}
-              variants={itemVariants}
-              whileHover={{
-                scale: 1.02,
-                y: -5,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Link
-                to={item?.path}
-                className="block p-3 sm:p-4 md:p-5 lg:p-6 glass-interactive rounded-xl shadow-glass-subtle hover:shadow-glass-interactive transition-all duration-300 group"
-                onClick={onExplore}
+          {navigationItems?.map((item) => {
+            const gradientBase = item?.color.split(" ")[0].replace("from-", "");
+
+            return (
+              <motion.div
+                key={item?.path}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.2 } }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-start space-x-3 sm:space-x-4">
-                  <motion.div
-                    className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg bg-gradient-to-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
-                    style={{
-                      backgroundImage: `linear-gradient(to bottom right, var(--${item?.color.split(' ')[0].replace('from-', '')}))`
-                    }}
-                    variants={shouldReduceMotion ? {} : pulseVariants}
-                    animate={shouldReduceMotion ? {} : "pulse"}
-                  >
+                <Link
+                  to={item?.path}
+                  className="block p-3 sm:p-4 md:p-5 lg:p-6 glass-interactive rounded-xl shadow-glass-subtle hover:shadow-glass-interactive transition-all duration-300 group"
+                  onClick={onExplore}
+                >
+                  <div className="flex items-start space-x-3 sm:space-x-4">
+                    <motion.div
+                      className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg bg-gradient-to-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0 shadow-lg"
+                      style={{
+                        backgroundImage: `linear-gradient(to bottom right, var(--${gradientBase}))`,
+                        boxShadow: `0 4px 12px 0 var(--${gradientBase} / 0.4)`,
+                      }}
+                      variants={shouldReduceMotion ? {} : pulseVariants}
+                      animate={shouldReduceMotion ? {} : "pulse"}
+                    >
+                      <Icon
+                        name={item?.icon}
+                        size={22}
+                        className="transition-colors duration-300"
+                        style={{
+                          color: item?.iconColor || "#fff", // 🌈 set individual icon color
+                        }}
+                      />
+                    </motion.div>
+
+                    <div className="flex-1 text-left min-w-0">
+                      <h3 className="text-sm sm:text-base md:text-lg font-semibold text-glass-text-primary group-hover:text-primary transition-colors duration-300 mb-1 sm:mb-2">
+                        {item?.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-glass-text-secondary group-hover:text-glass-text-primary transition-colors duration-300 line-clamp-2">
+                        {item?.description}
+                      </p>
+                    </div>
+
                     <Icon
-                      name={item?.icon}
-                      size={20}
-                      className="text-white"
+                      name="ArrowRight"
+                      size={16}
+                      className="group-hover:translate-x-1 transition-all duration-300 flex-shrink-0 mt-1"
+                      style={{
+                        color: item?.iconColor || "#fff", // match icon color
+                      }}
                     />
-                  </motion.div>
-
-                  <div className="flex-1 text-left min-w-0">
-                    <h3 className="text-sm sm:text-base md:text-lg font-semibold text-glass-text-primary group-hover:text-primary transition-colors duration-300 mb-1 sm:mb-2">
-                      {item?.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-glass-text-secondary group-hover:text-glass-text-primary transition-colors duration-300 line-clamp-2">
-                      {item?.description}
-                    </p>
                   </div>
-
-                  <Icon
-                    name="ArrowRight"
-                    size={16}
-                    className="text-glass-text-secondary group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 flex-shrink-0 mt-1"
-                  />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
+
 
         {/* Alternative Actions - Fully responsive */}
         <motion.div
