@@ -11,12 +11,27 @@ import ProcessTimeline from './components/ProcessTimeline';
 import ProjectTypeSelector from './components/ProjectTypeSelector';
 import ProcessInquiryForm from './components/ProcessInquiryForm';
 import ProcessVisualization from './components/ProcessVisualization';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const ProcessTheater = () => {
   const [activeStage, setActiveStage] = useState(0);
   const [selectedProjectType, setSelectedProjectType] = useState('web-app');
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [backgroundParticles, setBackgroundParticles] = useState([]);
+  const [floatingActive, setFloatingActive] = useState('overview');
+
+  const navSections = [
+    { id: 'overview', title: 'Overview', icon: 'Home' },
+    { id: 'stages', title: 'Stages', icon: 'List' },
+    { id: 'inquiry', title: 'Inquiry', icon: 'Message' },
+  ];
+
+  const handleFloatingChange = (id) => {
+    setFloatingActive(id);
+    if (id === 'overview') return window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     // Generate background particles
@@ -131,8 +146,8 @@ const ProcessTheater = () => {
         ))}
       </div>
       <Header />
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+  {/* Hero Section */}
+  <section id="overview" className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -202,8 +217,8 @@ const ProcessTheater = () => {
           </motion.div>
         </div>
       </section>
-      {/* Process Stages Detail */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+  {/* Process Stages Detail */}
+  <section id="stages" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -321,8 +336,8 @@ const ProcessTheater = () => {
           </div>
         </div>
       </section>
-      {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+  {/* CTA Section */}
+  <section id="inquiry" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -353,7 +368,9 @@ const ProcessTheater = () => {
           )}
         </div>
       </section>
-      {/* Footer */}
+  {/* Floating Navigation */}
+  <FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
+  {/* Footer */}
     </div>
   );
 };

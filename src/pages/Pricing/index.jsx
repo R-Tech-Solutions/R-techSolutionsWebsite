@@ -8,9 +8,24 @@ import PricingCard from './components/PricingCard';
 import TabNav from './components/TabNav';
 import Button from '../../components/ui/Button';
 import Footer from '../../components/ui/Footer';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const Pricing = () => {
 	const [activeTab, setActiveTab] = useState('web');
+	const [floatingActive, setFloatingActive] = useState('overview');
+
+	const navSections = [
+		{ id: 'overview', title: 'Overview', icon: 'Home' },
+		{ id: 'plans', title: 'Plans', icon: 'List' },
+		{ id: 'references', title: 'References', icon: 'Users' },
+	];
+
+	const handleFloatingChange = (id) => {
+		setFloatingActive(id);
+		if (id === 'overview') return window.scrollTo({ top: 0, behavior: 'smooth' });
+		const el = document.getElementById(id);
+		if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	};
 	const plans = [
 		{
 			title: 'Starter App',
@@ -56,7 +71,7 @@ const Pricing = () => {
 				<PricingHero onCTAClick={handleCTAClick} />
 
 				<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<section className="py-4 md:py-6">
+					<section id="overview" className="py-4 md:py-6">
 						<TabNav
 							tabs={[
 								{ key: 'web', label: 'Web Development' },
@@ -70,7 +85,7 @@ const Pricing = () => {
 						/>
 					</section>
 
-					<section className="py-6 md:py-8">
+					<section id="plans" className="py-6 md:py-8">
 						<div className="text-center mb-8">
 							<h2 className="text-2xl md:text-3xl font-bold text-glass-text-primary mb-2">
 								{activeTab === 'web' ? 'Web Development Packages' : 
@@ -125,7 +140,7 @@ const Pricing = () => {
 
 					<PricingFeatures />
 
-					<section className="py-8 md:py-12">
+					<section id="references" className="py-8 md:py-12">
 						<div className="glass-morphism rounded-2xl p-4 md:p-6 shadow-glass">
 							<h3 className="text-lg md:text-xl font-semibold text-glass-text-primary mb-2">Customer References</h3>
 							<p className="text-sm md:text-base text-glass-text-secondary mb-6">Companies we've helped with similar deployments.</p>
@@ -146,6 +161,8 @@ const Pricing = () => {
 						</div>
 					</section>
 				</main>
+				{/* Floating Navigation */}
+				<FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
 				<Footer />
 			</div>
 		</div>

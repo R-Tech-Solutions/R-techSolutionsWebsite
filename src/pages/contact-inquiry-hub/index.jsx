@@ -9,6 +9,7 @@ import ContactForm from './components/ContactForm';
 import CompanyInfo from './components/CompanyInfo';
 import ServiceSelector from './components/ServiceSelector';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const ContactInquiryHub = () => {
   const [selectedService, setSelectedService] = useState('');
@@ -50,7 +51,7 @@ const ContactInquiryHub = () => {
     {
       id: 'cctv',
       title: 'CCTV Systems',
-      icon: 'Video',
+      icon: 'Camera',
       description: 'Professional surveillance and security camera systems',
       features: ['HD/4K Cameras', 'Remote Monitoring', 'Motion Detection', 'Cloud Storage']
     },
@@ -62,6 +63,21 @@ const ContactInquiryHub = () => {
       features: ['Network Setup', 'WiFi Solutions', 'Server Management', 'IT Support']
     }
   ];
+
+  const [floatingActive, setFloatingActive] = useState('services');
+
+  const navSections = [
+    { id: 'services', title: 'Services', icon: 'Globe' },
+    { id: 'form', title: 'Form', icon: 'Mail' },
+    { id: 'map', title: 'Map', icon: 'MapPin' },
+  ];
+
+  const handleFloatingChange = (id) => {
+    setFloatingActive(id);
+    if (id === 'services') return window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const handleServiceSelect = (serviceId) => {
     setSelectedService(serviceId);
@@ -83,6 +99,7 @@ const ContactInquiryHub = () => {
     } finally {
       setIsSubmitting(false);
     }
+
   };
 
   return (
@@ -122,7 +139,6 @@ const ContactInquiryHub = () => {
                 <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-glass-text-primary via-primary to-accent bg-clip-text text-transparent">
                   Contact Us
                 </h1>
-                <p className="text-lg text-glass-text-secondary mt-2">R-tech Solution Pvt Ltd</p>
               </div>
             </div>
 
@@ -182,6 +198,9 @@ const ContactInquiryHub = () => {
             viewport={{ once: true }}
             className="glass-morphism rounded-3xl p-8 md:p-12"
           >
+            {/* Floating Navigation */}
+            <FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
+            {/* WhatsApp Floating Button */}
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-glass-text-primary mb-4">
                 Visit Our Office

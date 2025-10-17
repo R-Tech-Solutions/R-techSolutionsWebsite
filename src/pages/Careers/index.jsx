@@ -7,6 +7,7 @@ import FilterBar from './components/FilterBar';
 import JobCard from './components/JobCard';
 import ApplyModal from './components/ApplyModal';
 import CTAButton from './components/CTAButton';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 const MOCK_JOBS = [
 	{
 		id: '1',
@@ -39,6 +40,19 @@ const MOCK_JOBS = [
 
 export default function CareersPage() {
 	const [filters, setFilters] = useState({ q: '', location: '', team: '' });
+	const [floatingActive, setFloatingActive] = useState('open-roles');
+
+	const navSections = [
+		{ id: 'open-roles', title: 'Open Roles', icon: 'Users' },
+		{ id: 'apply', title: 'Apply', icon: 'Mail' },
+	];
+
+	const handleFloatingChange = (id) => {
+		setFloatingActive(id);
+		if (id === 'open-roles') return window.scrollTo({ top: 0, behavior: 'smooth' });
+		const el = document.getElementById(id);
+		if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	};
 	const [activeJob, setActiveJob] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const filtered = useMemo(() => {
@@ -101,6 +115,8 @@ export default function CareersPage() {
 					</section>
 
 					<ApplyModal job={activeJob} open={modalOpen} onClose={() => setModalOpen(false)} />
+					{/* Floating Navigation */}
+					<FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
 				</main>
 			</div>
 		</>

@@ -8,6 +8,7 @@ import OptimizedNavbar from './components/OptimizedNavbar';
 import NavigationMetrics from './components/NavigationMetrics';
 import PerformanceDemo from './components/PerformanceDemo';
 import WhatsAppFloat from '../contact-inquiry-hub/components/WhatsAppFloat';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const PerformanceOptimizedNavigation = () => {
   const [activeSection, setActiveSection] = useState('overview');

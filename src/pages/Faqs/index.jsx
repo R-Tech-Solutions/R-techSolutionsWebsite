@@ -24,6 +24,7 @@ import AppFaq from "./components/AppFaq";
 import SystemFaq from "./components/SystemFaq";
 import CctvFaq from "./components/CctvFaq";
 import NetworkingFaq from "./components/NetworkingFaq";
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const tabs = [
 	{ 
@@ -66,6 +67,12 @@ const tabs = [
 		gradient: "from-indigo-500 to-blue-500",
 		description: "Network infrastructure and connectivity"
 	},
+];
+
+const navSections = [
+	{ id: 'overview', title: 'Overview', icon: 'Globe' },
+	{ id: 'faqs', title: 'FAQs', icon: 'HelpCircle' },
+	{ id: 'system', title: 'System', icon: 'Monitor' },
 ];
 
 // System Features FAQ Data
@@ -203,12 +210,22 @@ const SystemFeaturesFaq = ({ searchQuery = "" }) => {
 	);
 };
 
+// NOTE: Floating navigation state and handler were merged into the main Faqs component below.
+
 export default function Faqs() {
 	const [active, setActive] = useState("web");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [isSearchFocused, setIsSearchFocused] = useState(false);
+	const [floatingActive, setFloatingActive] = useState('overview');
 	const ActiveComp = tabs.find(t => t.key === active)?.Component ?? WebFaq;
 	const activeTab = tabs.find(t => t.key === active);
+
+	const handleFloatingChange = (id) => {
+		setFloatingActive(id);
+		if (id === 'overview') return window.scrollTo({ top: 0, behavior: 'smooth' });
+		const el = document.getElementById(id);
+		if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	};
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -216,7 +233,7 @@ export default function Faqs() {
 			<Header />
 			
 			{/* Hero Section */}
-			<section className="relative pt-16 md:pt-20 pb-12 md:pb-16 overflow-hidden">
+			<section id="overview" className="relative pt-16 md:pt-20 pb-12 md:pb-16 overflow-hidden">
 				{/* Animated Background */}
 				<div className="absolute inset-0">
 					<div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-cyan-500/5"></div>
@@ -338,7 +355,7 @@ export default function Faqs() {
 			</section>
 
 			{/* FAQ Content */}
-			<section className="container mx-auto px-4 pb-16">
+			<section id="faqs" className="container mx-auto px-4 pb-16">
 				<motion.div
 					key={active}
 					initial={{ opacity: 0, y: 20 }}
@@ -381,7 +398,7 @@ export default function Faqs() {
 			</section>
 
 			{/* System Features FAQ Section */}
-			<section className="container mx-auto px-4 pb-20">
+			<section id="system" className="container mx-auto px-4 pb-20">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -404,6 +421,9 @@ export default function Faqs() {
 					<SystemFeaturesFaq searchQuery={searchQuery} />
 				</motion.div>
 			</section>
+
+			{/* Floating Navigation (shared) */}
+			<FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
 		</div>
 	);
 }

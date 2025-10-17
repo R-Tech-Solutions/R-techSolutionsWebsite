@@ -10,6 +10,7 @@ import ProjectCard from './components/ProjectCard';
 import FilterBar from './components/FilterBar';
 import ProjectModal from './components/ProjectModal';
 import StatsOverview from './components/StatsOverview';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const PortfolioShowcase = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');

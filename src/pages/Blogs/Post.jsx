@@ -5,6 +5,7 @@ import POSTS from './data';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import Icon from '../../components/AppIcon';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 export default function PostPage() {
   const { id } = useParams();
@@ -15,6 +16,19 @@ export default function PostPage() {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
   const [rating, setRating] = useState(5);
+  const [floatingActive, setFloatingActive] = useState('article');
+
+  const navSections = [
+    { id: 'article', title: 'Article', icon: 'FileText' },
+    { id: 'comments', title: 'Comments', icon: 'Message' },
+  ];
+
+  const handleFloatingChange = (id) => {
+    setFloatingActive(id);
+    if (id === 'article') return window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   if (!post) {
     return (
@@ -58,7 +72,7 @@ export default function PostPage() {
     <>
       <Header />
       <main className="container pt-28 pb-16">
-        <div className="glass-morphism p-6 sm:p-8 rounded-xl mb-6 w-full max-w-5xl mx-auto">
+  <div id="article" className="glass-morphism p-6 sm:p-8 rounded-xl mb-6 w-full max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
             {/* Left Section */}
             <div className="flex-1 min-w-0">
@@ -109,7 +123,7 @@ export default function PostPage() {
 
         <article className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <div className="glass-surface p-6 rounded-lg">
+            <div id="comments" className="glass-surface p-6 rounded-lg">
               <p className="text-base leading-relaxed">{post.content}</p>
             </div>
 
@@ -155,6 +169,7 @@ export default function PostPage() {
             </div>
           </aside>
         </article>
+      	<FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
       </main>
     </>
   );

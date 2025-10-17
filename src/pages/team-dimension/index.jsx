@@ -9,12 +9,27 @@ import Button from "../../components/ui/Button"
 import TeamMemberCard from './components/TeamMemberCard';
 import TeamFilterBar from './components/TeamFilterBar';
 import TeamHierarchy from './components/TeamHierarchy';
+import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const TeamDimension = () => {
   const [activeFilter, setActiveFilter] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
   const [viewMode, setViewMode] = useState("grid")
   const [showHierarchy, setShowHierarchy] = useState(false)
+  const [floatingActive, setFloatingActive] = useState('top');
+
+  const navSections = [
+    { id: 'top', title: 'Top', icon: 'ArrowUp' },
+    { id: 'members', title: 'Members', icon: 'Users' },
+    { id: 'hierarchy', title: 'Hierarchy', icon: 'Layout' },
+  ];
+
+  const handleFloatingChange = (id) => {
+    setFloatingActive(id);
+    if (id === 'top') return window.scrollTo({ top: 0, behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const teamMembers = [
     // Partners
@@ -24,7 +39,7 @@ const TeamDimension = () => {
       role: "Managing Director",
       department: "Partners",
       experience: 12,
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400",
+      avatar: "/assets/Members/roshan sir.jpg",
       specialties: ["Strategic Vision", "Brand Strategy", "Business Development"],
       socialMedia: {
         website: "https://roshanekanayake.com/",
@@ -38,7 +53,7 @@ const TeamDimension = () => {
       role: "Director",
       department: "Partners",
       experience: 14,
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
+      avatar: "/assets/Members/darshana sir.jpg",
       specialties: ["Technical Strategy", "Architecture", "Innovation"],
       socialMedia: {
         website: "https://michaelanderson.tech",
@@ -61,7 +76,7 @@ const TeamDimension = () => {
       role: "HR",
       department: "Administration",
       experience: 8,
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400",
+      avatar: "/assets/Members/Shehani.jpg",
       specialties: ["Bsc (Hons) Software Engineer"],
     },
     {
@@ -254,6 +269,8 @@ const TeamDimension = () => {
           </Link>
         </div>
       </div>
+      {/* Floating Navigation */}
+      <FloatingNavigation sections={navSections} activeSection={floatingActive} onSectionChange={handleFloatingChange} />
     </div>
   )
 }
