@@ -7,10 +7,8 @@ import { generatePageSEO } from '../../utils/seoUtils';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
 import ProjectCard from './components/ProjectCard';
-import FilterBar from './components/FilterBar';
 import ProjectModal from './components/ProjectModal';
 import StatsOverview from './components/StatsOverview';
-import FloatingNavigation from '../services-revelation/components/FloatingNavigation';
 
 const PortfolioShowcase = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -20,487 +18,654 @@ const PortfolioShowcase = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Mock portfolio data
+  // Portfolio projects data
   const portfolioProjects = [
     {
       id: 1,
-      title: "NeuroFlow Analytics Platform",
-      client: "TechCorp Industries",
-      category: "Web Application",
-      description: "Advanced data visualization platform with real-time analytics and machine learning insights for enterprise decision making.",
-      fullDescription: `NeuroFlow Analytics Platform represents a paradigm shift in enterprise data visualization, combining cutting-edge machine learning algorithms with intuitive user interfaces. This comprehensive platform enables organizations to transform raw data into actionable insights through sophisticated visualization techniques and predictive analytics.\n\nThe platform serves as a central hub for data-driven decision making, offering real-time monitoring capabilities, customizable dashboards, and automated reporting systems that scale with organizational needs.`,
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+      title: "Echo Tours Lanka Website Development",
+      client: "Echo Tours Lanka",
+      category: "Tourism Website",
+      description: "Echo Tours Lanka has excelled in website development tailored for local tourism. Their platform is intuitive, showcasing Global's rich tapestry of cultural, natural, and historical attractions with stunning visuals and detailed itineraries.",
+      fullDescription: `Echo Tours Lanka has excelled in website development tailored for local tourism. Their platform is intuitive, showcasing Global's rich tapestry of cultural, natural, and historical attractions with stunning visuals and detailed itineraries. The site's design emphasizes user engagement through interactive maps, local insights, and an easy booking system. It highlights unique experiences like eco-tours, wildlife safaris, and authentic village visits, ensuring tourists connect deeply with Global's heritage. Their commitment to sustainability and community support is evident, promoting local businesses and conservation efforts. Echo Tours Lanka's website is a gateway to experiencing the authentic charm of Global.`,
+      image: "/assets/image1.jpg",
       gallery: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=600&fit=crop"
+        "/assets/image1.jpg",
+        "/assets/image1-1.jpg",
+        "/assets/image1-2.jpg"
       ],
-      technologies: ["React", "Node.js", "Python", "TensorFlow", "PostgreSQL", "Redis"],
-      rating: 4.9,
-      duration: "8 months",
-      teamSize: "12 members",
-      impact: "+340% ROI",
-      challenge: "The client needed a unified platform to process and visualize massive datasets from multiple sources while maintaining real-time performance and ensuring data security compliance.",
-      solution: "We developed a microservices architecture with advanced caching mechanisms, implemented machine learning pipelines for predictive analytics, and created an intuitive dashboard system with role-based access controls.",
-      features: [
-        "Real-time data processing and visualization",
-        "Machine learning-powered predictive analytics",
-        "Customizable dashboard builder",
-        "Advanced filtering and search capabilities",
-        "Automated report generation",
-        "Multi-tenant architecture with role-based access",
-        "API integration with 50+ data sources",
-        "Mobile-responsive design"
-      ],
-      processSteps: [
-        {
-          title: "Discovery & Research",
-          description: "Conducted comprehensive stakeholder interviews and analyzed existing data infrastructure to understand requirements and constraints.",
-          duration: "3 weeks"
-        },
-        {
-          title: "Architecture Design",
-          description: "Designed scalable microservices architecture with emphasis on performance, security, and maintainability.",
-          duration: "2 weeks"
-        },
-        {
-          title: "MVP Development",
-          description: "Built core functionality including data ingestion, basic visualization, and user authentication systems.",
-          duration: "8 weeks"
-        },
-        {
-          title: "ML Integration",
-          description: "Implemented machine learning models for predictive analytics and automated insight generation.",
-          duration: "6 weeks"
-        },
-        {
-          title: "Testing & Optimization",
-          description: "Comprehensive testing including performance optimization, security audits, and user acceptance testing.",
-          duration: "4 weeks"
-        },
-        {
-          title: "Deployment & Training",
-          description: "Production deployment with comprehensive user training and documentation delivery.",
-          duration: "3 weeks"
-        }
-      ],
-      metrics: [
-        { label: "Data Processing Speed", value: "10x Faster" },
-        { label: "User Adoption Rate", value: "94%" },
-        { label: "Cost Reduction", value: "45%" }
-      ],
-      testimonial: {
-        quote: "NeuroFlow has transformed how we make decisions. The insights we get are incredible, and the platform is so intuitive that our entire team adopted it within weeks.",
-        name: "Sarah Chen",
-        position: "Chief Data Officer, TechCorp Industries",
-        avatar: "https://randomuser.me/api/portraits/women/32.jpg"
-      },
-      architecture: "Microservices architecture built on Kubernetes with React frontend, Node.js APIs, Python ML services, and PostgreSQL database with Redis caching layer.",
-      performance: [
-        { metric: "Page Load Speed", score: 95 },
-        { metric: "API Response Time", score: 98 },
-        { metric: "Data Accuracy", score: 99 },
-        { metric: "System Uptime", score: 99.9 }
-      ]
-    },
-    {
-      id: 2,
-      title: "EcoTrack Sustainability Suite",
-      client: "GreenTech Solutions",
-      category: "Mobile App",
-      description: "Comprehensive sustainability tracking application helping organizations monitor and reduce their environmental impact through gamification.",
-      fullDescription: `EcoTrack Sustainability Suite revolutionizes how organizations approach environmental responsibility by combining comprehensive tracking capabilities with engaging gamification elements. This innovative platform enables companies to monitor their carbon footprint, waste management, energy consumption, and sustainability initiatives in real-time.\n\nThe application transforms sustainability from a compliance requirement into an engaging company-wide initiative, fostering environmental consciousness through competitive elements, achievement systems, and social sharing features.`,
-      image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop",
-      gallery: [
-        "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1574263867128-a3d5c1b1deaa?w=800&h=600&fit=crop"
-      ],
-      technologies: ["React Native", "Firebase", "Node.js", "MongoDB", "AWS", "GraphQL"],
+      technologies: ["React", "Node.js", "MongoDB"],
       rating: 4.8,
-      duration: "6 months",
-      teamSize: "8 members",
-      impact: "+280% engagement",
-      challenge: "Creating an engaging sustainability platform that would motivate employees to actively participate in environmental initiatives while providing accurate tracking and reporting capabilities.",
-      solution: "We developed a gamified mobile application with social features, real-time tracking, and comprehensive analytics that makes sustainability efforts visible and rewarding for all participants.",
+      duration: "3 months",
+      teamSize: "4 members",
+      impact: "+250% bookings",
+      link: "https://echotourslanka.com/",
+      challenge: "Creating an intuitive tourism platform that showcases Sri Lanka's attractions while providing seamless booking experiences and promoting sustainable tourism practices.",
+      solution: "We developed a comprehensive tourism website with interactive maps, detailed itineraries, easy booking system, and mobile-responsive design that highlights unique experiences and promotes local businesses.",
       features: [
-        "Real-time carbon footprint tracking",
-        "Gamification with points and achievements",
-        "Team challenges and competitions",
-        "Comprehensive sustainability reporting",
-        "Social sharing and community features",
-        "Integration with IoT sensors",
-        "Offline data collection capabilities",
+        "Interactive maps with local attractions",
+        "Detailed itinerary planning",
+        "Easy booking and reservation system",
+        "Mobile-responsive design",
+        "Eco-tour and wildlife safari sections",
+        "Local business promotion",
+        "Sustainability information",
         "Multi-language support"
       ],
       processSteps: [
         {
-          title: "User Research & Personas",
-          description: "Conducted extensive research with sustainability professionals and employees to understand motivation factors and usage patterns.",
+          title: "Research & Discovery",
+          description: "Analyzed tourism market needs and studied competitor websites to understand user expectations and booking patterns.",
+          duration: "1 week"
+        },
+        {
+          title: "Design & Planning",
+          description: "Created user-friendly interface design with focus on showcasing attractions and simplifying booking process.",
           duration: "2 weeks"
         },
         {
-          title: "Gamification Design",
-          description: "Designed comprehensive gamification system including point structures, achievement systems, and social engagement features.",
-          duration: "3 weeks"
-        },
-        {
-          title: "Mobile App Development",
-          description: "Built cross-platform mobile application with offline capabilities and real-time synchronization.",
-          duration: "12 weeks"
-        },
-        {
-          title: "Backend & Analytics",
-          description: "Developed robust backend systems for data processing, analytics, and reporting with scalable cloud infrastructure.",
-          duration: "8 weeks"
-        },
-        {
-          title: "Testing & Refinement",
-          description: "Comprehensive testing including user experience testing, performance optimization, and security validation.",
-          duration: "3 weeks"
-        }
-      ],
-      metrics: [
-        { label: "User Engagement", value: "+280%" },
-        { label: "Carbon Reduction", value: "35%" },
-        { label: "App Store Rating", value: "4.8★" }
-      ],
-      testimonial: {
-        quote: "EcoTrack has made sustainability fun and engaging for our entire organization. We\'ve seen unprecedented participation in our green initiatives.",
-        name: "Michael Rodriguez",
-        position: "Sustainability Director, GreenTech Solutions",
-        avatar: "https://randomuser.me/api/portraits/men/45.jpg"
-      },
-      architecture: "React Native mobile app with Firebase backend, Node.js microservices for analytics, MongoDB for data storage, and AWS cloud infrastructure.",
-      performance: [
-        { metric: "App Launch Speed", score: 92 },
-        { metric: "Data Sync Reliability", score: 98 },
-        { metric: "Battery Optimization", score: 89 },
-        { metric: "Crash-Free Sessions", score: 99.5 }
-      ]
-    },
-    {
-      id: 3,
-      title: "QuantumCRM Enterprise",
-      client: "SalesForce Dynamics",
-      category: "Enterprise Software",
-      description: "Next-generation CRM platform with AI-powered lead scoring, automated workflows, and advanced customer journey mapping.",
-      fullDescription: `QuantumCRM Enterprise redefines customer relationship management through artificial intelligence and advanced automation. This comprehensive platform combines traditional CRM functionality with cutting-edge AI capabilities to provide unprecedented insights into customer behavior and sales opportunities.\n\nThe system leverages machine learning algorithms to predict customer lifetime value, optimize sales processes, and automate routine tasks, enabling sales teams to focus on high-value activities and relationship building.`,
-      image: "https://images.unsplash.com/photo-1553484771-371a605b060b?w=800&h=600&fit=crop",
-      gallery: [
-        "https://images.unsplash.com/photo-1553484771-371a605b060b?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
-      ],
-      technologies: ["Vue.js", "Django", "PostgreSQL", "Redis", "Docker", "Kubernetes"],
-      rating: 4.7,
-      duration: "10 months",
-      teamSize: "15 members",
-      impact: "+420% sales efficiency",
-      challenge: "Building a CRM system that could handle enterprise-scale data while providing intelligent insights and maintaining high performance across global teams.",
-      solution: "We created a modular, AI-powered CRM platform with advanced caching, real-time synchronization, and machine learning capabilities for predictive analytics and automation.",
-      features: [
-        "AI-powered lead scoring and prioritization",
-        "Automated workflow engine",
-        "Advanced customer journey mapping",
-        "Real-time collaboration tools",
-        "Comprehensive reporting and analytics",
-        "Mobile-first responsive design",
-        "Third-party integrations (50+ platforms)",
-        "Advanced security and compliance features"
-      ],
-      processSteps: [
-        {
-          title: "Requirements Analysis",
-          description: "Comprehensive analysis of existing CRM systems and identification of key improvement opportunities.",
-          duration: "4 weeks"
-        },
-        {
-          title: "System Architecture",
-          description: "Designed scalable microservices architecture with emphasis on performance and AI integration capabilities.",
-          duration: "3 weeks"
-        },
-        {
-          title: "Core Development",
-          description: "Built fundamental CRM features including contact management, opportunity tracking, and basic reporting.",
-          duration: "16 weeks"
-        },
-        {
-          title: "AI Integration",
-          description: "Implemented machine learning models for lead scoring, sales forecasting, and automated insights generation.",
-          duration: "8 weeks"
-        },
-        {
-          title: "Enterprise Features",
-          description: "Added advanced features including workflow automation, advanced reporting, and enterprise integrations.",
-          duration: "6 weeks"
-        },
-        {
-          title: "Testing & Deployment",
-          description: "Comprehensive testing, performance optimization, and phased deployment across multiple regions.",
-          duration: "5 weeks"
-        }
-      ],
-      metrics: [
-        { label: "Sales Efficiency", value: "+420%" },
-        { label: "Lead Conversion", value: "+65%" },
-        { label: "User Satisfaction", value: "92%" }
-      ],
-      testimonial: {
-        quote: "QuantumCRM has revolutionized our sales process. The AI insights are incredibly accurate, and our team productivity has skyrocketed.",
-        name: "Jennifer Walsh",
-        position: "VP of Sales, SalesForce Dynamics",
-        avatar: "https://randomuser.me/api/portraits/women/28.jpg"
-      },
-      architecture: "Vue.js frontend with Django REST API backend, PostgreSQL database, Redis caching, containerized with Docker and orchestrated on Kubernetes.",
-      performance: [
-        { metric: "Query Response Time", score: 96 },
-        { metric: "System Reliability", score: 99.8 },
-        { metric: "Data Processing Speed", score: 94 },
-        { metric: "Concurrent Users", score: 98 }
-      ]
-    },
-    {
-      id: 4,
-      title: "MindfulSpace Wellness Platform",
-      client: "Wellness Innovations Inc",
-      category: "Healthcare App",
-      description: "Comprehensive mental health and wellness platform featuring guided meditations, mood tracking, and personalized wellness plans.",
-      fullDescription: `MindfulSpace Wellness Platform addresses the growing need for accessible mental health resources by providing a comprehensive digital wellness ecosystem. The platform combines evidence-based therapeutic techniques with modern technology to deliver personalized mental health support.\n\nFeaturing guided meditations, cognitive behavioral therapy tools, mood tracking, and community support features, MindfulSpace creates a safe space for users to explore and improve their mental well-being through structured programs and peer support.`,
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-      gallery: [
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop"
-      ],
-      technologies: ["React Native", "Node.js", "MongoDB", "Socket.io", "AWS", "TensorFlow"],
-      rating: 4.9,
-      duration: "7 months",
-      teamSize: "10 members",
-      impact: "+95% user retention",
-      challenge: "Creating a mental health platform that provides effective therapeutic support while ensuring user privacy, safety, and engagement in a sensitive domain.",
-      solution: "We developed a comprehensive wellness platform with evidence-based therapeutic tools, personalized content delivery, and robust privacy protections, guided by mental health professionals.",
-      features: [
-        "Guided meditation library (200+ sessions)",
-        "Mood tracking with intelligent insights",
-        "Personalized wellness plans",
-        "CBT-based therapeutic exercises",
-        "Community support groups",
-        "Crisis intervention resources",
-        "Progress tracking and analytics",
-        "Offline content access"
-      ],
-      processSteps: [
-        {
-          title: "Clinical Research",
-          description: "Collaborated with mental health professionals to ensure evidence-based approach and clinical effectiveness.",
-          duration: "3 weeks"
-        },
-        {
-          title: "User Experience Design",
-          description: "Designed calming, accessible interface with focus on user safety and ease of use during vulnerable moments.",
-          duration: "4 weeks"
-        },
-        {
-          title: "Core App Development",
-          description: "Built meditation player, mood tracking, and basic wellness features with offline capabilities.",
-          duration: "12 weeks"
-        },
-        {
-          title: "Therapeutic Tools",
-          description: "Implemented CBT exercises, personalization algorithms, and crisis intervention features.",
-          duration: "6 weeks"
-        },
-        {
-          title: "Community Features",
-          description: "Added moderated community spaces, peer support features, and professional guidance integration.",
-          duration: "4 weeks"
-        },
-        {
-          title: "Clinical Validation",
-          description: "Conducted clinical trials and user studies to validate therapeutic effectiveness and safety measures.",
-          duration: "3 weeks"
-        }
-      ],
-      metrics: [
-        { label: "User Retention", value: "95%" },
-        { label: "Wellness Improvement", value: "78%" },
-        { label: "Daily Active Users", value: "85%" }
-      ],
-      testimonial: {
-        quote: "MindfulSpace has been a game-changer for our users. The combination of technology and clinical expertise creates truly effective mental health support.",
-        name: "Dr. Amanda Foster",
-        position: "Chief Clinical Officer, Wellness Innovations Inc",
-        avatar: "https://randomuser.me/api/portraits/women/42.jpg"
-      },
-      architecture: "React Native mobile app with Node.js backend, MongoDB for user data, Socket.io for real-time features, and AWS infrastructure with HIPAA compliance.",
-      performance: [
-        { metric: "App Responsiveness", score: 97 },
-        { metric: "Content Load Speed", score: 94 },
-        { metric: "Data Security", score: 100 },
-        { metric: "Offline Functionality", score: 92 }
-      ]
-    },
-    {
-      id: 5,
-      title: "BlockChain Supply Tracker",
-      client: "LogiChain Global",
-      category: "Blockchain App",
-      description: "Revolutionary supply chain transparency platform using blockchain technology for end-to-end product tracking and verification.",
-      fullDescription: `BlockChain Supply Tracker transforms supply chain management through distributed ledger technology, providing unprecedented transparency and traceability across global supply networks. This innovative platform enables stakeholders to track products from origin to consumer, ensuring authenticity and ethical sourcing.\n\nBy leveraging blockchain's immutable record-keeping capabilities, the platform creates a trusted ecosystem where suppliers, manufacturers, distributors, and consumers can verify product authenticity, track environmental impact, and ensure compliance with ethical standards.`,
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop",
-      gallery: [
-        "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop"
-      ],
-      technologies: ["Solidity", "Web3.js", "React", "Node.js", "IPFS", "Ethereum"],
-      rating: 4.6,
-      duration: "12 months",
-      teamSize: "18 members",
-      impact: "+99% transparency",
-      challenge: "Building a blockchain-based supply chain platform that could handle enterprise-scale transactions while maintaining transparency, security, and user-friendly interfaces.",
-      solution: "We created a hybrid blockchain solution combining public transparency with private business data protection, featuring intuitive interfaces for all stakeholder types.",
-      features: [
-        "End-to-end product tracking",
-        "Immutable transaction records",
-        "Smart contract automation",
-        "Multi-stakeholder dashboard",
-        "QR code product verification",
-        "Sustainability impact tracking",
-        "Compliance reporting tools",
-        "Mobile verification app"
-      ],
-      processSteps: [
-        {
-          title: "Blockchain Architecture",
-          description: "Designed hybrid blockchain architecture balancing transparency requirements with business privacy needs.",
-          duration: "4 weeks"
-        },
-        {
-          title: "Smart Contract Development",
-          description: "Created comprehensive smart contracts for supply chain events, verification, and automated compliance checking.",
-          duration: "8 weeks"
-        },
-        {
-          title: "Web Platform Development",
-          description: "Built stakeholder dashboards and administrative interfaces for supply chain management and monitoring.",
-          duration: "16 weeks"
-        },
-        {
-          title: "Mobile App Development",
-          description: "Developed consumer-facing mobile app for product verification and supply chain transparency access.",
-          duration: "8 weeks"
-        },
-        {
-          title: "Integration & Testing",
-          description: "Integrated with existing ERP systems and conducted extensive testing including security audits.",
-          duration: "6 weeks"
-        },
-        {
-          title: "Pilot Deployment",
-          description: "Conducted pilot program with select suppliers and gradually scaled to full network deployment.",
-          duration: "8 weeks"
-        }
-      ],
-      metrics: [
-        { label: "Supply Chain Transparency", value: "99%" },
-        { label: "Fraud Reduction", value: "87%" },
-        { label: "Compliance Accuracy", value: "96%" }
-      ],
-      testimonial: {
-        quote: "The blockchain tracker has revolutionized our supply chain visibility. Our customers now have complete confidence in our product authenticity and ethical sourcing.",
-        name: "Robert Kim",
-        position: "Supply Chain Director, LogiChain Global",
-        avatar: "https://randomuser.me/api/portraits/men/38.jpg"
-      },
-      architecture: "Ethereum-based smart contracts with React frontend, Node.js APIs, IPFS for document storage, and Web3.js for blockchain interactions.",
-      performance: [
-        { metric: "Transaction Speed", score: 88 },
-        { metric: "Data Integrity", score: 100 },
-        { metric: "Network Reliability", score: 96 },
-        { metric: "Gas Optimization", score: 91 }
-      ]
-    },
-    {
-      id: 6,
-      title: "EduFlow Learning Management",
-      client: "Academic Excellence Institute",
-      category: "E-learning Platform",
-      description: "Advanced learning management system with AI-powered personalized learning paths, interactive content, and comprehensive analytics.",
-      fullDescription: `EduFlow Learning Management System represents the future of digital education, combining artificial intelligence with pedagogical best practices to create personalized learning experiences. The platform adapts to individual learning styles and paces, providing customized content delivery and assessment strategies.\n\nFeaturing interactive multimedia content, collaborative learning tools, and comprehensive analytics, EduFlow empowers educators to create engaging learning experiences while providing students with the support they need to succeed in their educational journey.`,
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
-      gallery: [
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop"
-      ],
-      technologies: ["Angular", "Spring Boot", "MySQL", "Redis", "Docker", "AWS"],
-      rating: 4.8,
-      duration: "9 months",
-      teamSize: "14 members",
-      impact: "+75% learning outcomes",
-      challenge: "Creating a learning management system that could personalize education at scale while providing comprehensive tools for educators and maintaining high performance.",
-      solution: "We developed an AI-powered LMS with adaptive learning algorithms, comprehensive content management tools, and robust analytics to support both educators and learners.",
-      features: [
-        "AI-powered personalized learning paths",
-        "Interactive multimedia content creation",
-        "Real-time collaboration tools",
-        "Comprehensive assessment engine",
-        "Advanced analytics and reporting",
-        "Mobile learning applications",
-        "Integration with 100+ educational tools",
-        "Accessibility compliance (WCAG 2.1)"
-      ],
-      processSteps: [
-        {
-          title: "Educational Research",
-          description: "Conducted extensive research on learning methodologies and pedagogical best practices with education experts.",
-          duration: "3 weeks"
-        },
-        {
-          title: "Platform Architecture",
-          description: "Designed scalable architecture supporting millions of concurrent users with real-time collaboration capabilities.",
-          duration: "4 weeks"
-        },
-        {
-          title: "Core LMS Development",
-          description: "Built fundamental learning management features including course creation, user management, and basic assessment tools.",
-          duration: "16 weeks"
-        },
-        {
-          title: "AI Personalization",
-          description: "Implemented machine learning algorithms for adaptive learning paths and personalized content recommendations.",
-          duration: "8 weeks"
-        },
-        {
-          title: "Advanced Features",
-          description: "Added collaboration tools, advanced analytics, mobile applications, and third-party integrations.",
+          title: "Development",
+          description: "Built responsive website with React frontend, Node.js backend, and MongoDB database for content management.",
           duration: "8 weeks"
         },
         {
           title: "Testing & Optimization",
-          description: "Comprehensive testing including accessibility compliance, performance optimization, and educational effectiveness validation.",
-          duration: "4 weeks"
+          description: "Conducted user testing, performance optimization, and mobile responsiveness validation.",
+          duration: "1 week"
         }
       ],
       metrics: [
-        { label: "Learning Outcomes", value: "+75%" },
-        { label: "Student Engagement", value: "+89%" },
-        { label: "Course Completion", value: "+62%" }
+        { label: "Booking Increase", value: "+250%" },
+        { label: "User Engagement", value: "+180%" },
+        { label: "Mobile Traffic", value: "75%" }
       ],
       testimonial: {
-        quote: "EduFlow has transformed our educational delivery. The personalized learning paths have significantly improved student outcomes and engagement.",
-        name: "Dr. Patricia Williams",
-        position: "Dean of Digital Learning, Academic Excellence Institute",
-        avatar: "https://randomuser.me/api/portraits/women/55.jpg"
+        quote: "The website has transformed our business. We've seen incredible growth in bookings and our customers love the easy-to-use interface.",
+        name: "Rajesh Perera",
+        position: "Managing Director, Echo Tours Lanka",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg"
       },
-      architecture: "Angular frontend with Spring Boot microservices, MySQL database, Redis caching, containerized with Docker and deployed on AWS infrastructure.",
+      architecture: "React frontend with Node.js backend, MongoDB database, and responsive design optimized for tourism industry needs.",
+      performance: [
+        { metric: "Page Load Speed", score: 92 },
+        { metric: "Mobile Performance", score: 95 },
+        { metric: "User Experience", score: 94 },
+        { metric: "Booking Conversion", score: 88 }
+      ]
+    },
+    {
+      id: 2,
+      title: "Adspire DIGITAL Website Development",
+      client: "Adspire Digital",
+      category: "Digital Marketing",
+      description: "Adspire Digital is a platform that offers a diverse range of marketing services. From social media management to digital advertising, they provide a one-stop solution for businesses seeking to elevate their online presence.",
+      fullDescription: `Adspire Digital is a platform that offers a diverse range of marketing services. From social media management to digital advertising, they provide a one-stop solution for businesses seeking to elevate their online presence. With a team of experienced professionals, Adspire Digital ensures top-notch strategies tailored to each client's unique needs. Their commitment to excellence and innovation makes them a go-to destination for businesses looking to thrive in the digital landscape.`,
+      image: "/assets/image2.jpg",
+      gallery: [
+        "/assets/image2.jpg",
+        "/assets/image2-1.jpg",
+        "/assets/image2-2.jpg"
+      ],
+      technologies: ["Vue.js", "Express", "PostgreSQL"],
+      rating: 4.7,
+      duration: "2 months",
+      teamSize: "3 members",
+      impact: "+200% leads",
+      link: "https://adspiredigital.co/",
+      challenge: "Building a comprehensive digital marketing platform that showcases services effectively while generating quality leads and demonstrating expertise in digital marketing.",
+      solution: "We created a modern, professional website with service showcases, case studies, client testimonials, and lead generation forms optimized for digital marketing industry.",
+      features: [
+        "Service portfolio showcase",
+        "Case studies and success stories",
+        "Client testimonials section",
+        "Lead generation forms",
+        "Social media integration",
+        "SEO optimized content",
+        "Contact and inquiry system",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Strategy Planning",
+          description: "Developed digital marketing strategy and identified key services to highlight on the website.",
+          duration: "1 week"
+        },
+        {
+          title: "Content Creation",
+          description: "Created compelling content, case studies, and service descriptions that showcase expertise.",
+          duration: "2 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built Vue.js frontend with Express backend and PostgreSQL database for content management.",
+          duration: "6 weeks"
+        },
+        {
+          title: "SEO & Launch",
+          description: "Implemented SEO best practices and launched the website with ongoing optimization.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Lead Generation", value: "+200%" },
+        { label: "Website Traffic", value: "+150%" },
+        { label: "Conversion Rate", value: "12%" }
+      ],
+      testimonial: {
+        quote: "Our new website has been a game-changer for our business. We're getting more qualified leads than ever before.",
+        name: "Sarah Johnson",
+        position: "CEO, Adspire Digital",
+        avatar: "https://randomuser.me/api/portraits/women/28.jpg"
+      },
+      architecture: "Vue.js frontend with Express.js backend, PostgreSQL database, and SEO-optimized structure for digital marketing services.",
+      performance: [
+        { metric: "Page Load Speed", score: 94 },
+        { metric: "SEO Score", score: 96 },
+        { metric: "Lead Conversion", score: 89 },
+        { metric: "User Engagement", score: 91 }
+      ]
+    },
+    {
+      id: 3,
+      title: "SoapstoRis Website Development",
+      client: "SoapstoRis",
+      category: "E-commerce",
+      description: "SoapstoRis offers a variety of handmade soaps that are crafted with care and attention to detail. The website provides a range of unique scents and ingredients that cater to different preferences and skin types.",
+      fullDescription: `SoapstoRis offers a variety of handmade soaps that are crafted with care and attention to detail. The website provides a range of unique scents and ingredients that cater to different preferences and skin types. With their dedication to quality and craftsmanship, SoapstoRis ensures that customers receive a luxurious and pampering experience with each use of their products.`,
+      image: "/assets/image3.jpg",
+      gallery: [
+        "/assets/image3.jpg",
+        "/assets/image3-1.jpg",
+        "/assets/image3-2.jpg"
+      ],
+      technologies: ["Python", "TensorFlow", "NLP"],
+      rating: 4.6,
+      duration: "2 months",
+      teamSize: "3 members",
+      impact: "+180% sales",
+      link: "https://soapstoris.com/",
+      challenge: "Creating an e-commerce platform for handmade soaps that showcases product quality, provides detailed ingredient information, and offers seamless shopping experience.",
+      solution: "We developed a beautiful e-commerce website with product galleries, detailed descriptions, ingredient information, and secure payment processing optimized for handmade soap business.",
+      features: [
+        "Product catalog with high-quality images",
+        "Detailed ingredient information",
+        "Shopping cart and checkout system",
+        "Customer reviews and ratings",
+        "Product categories and filtering",
+        "Secure payment processing",
+        "Order tracking system",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Product Photography",
+          description: "Organized professional product photography to showcase soap quality and ingredients effectively.",
+          duration: "1 week"
+        },
+        {
+          title: "E-commerce Setup",
+          description: "Configured e-commerce platform with payment processing, inventory management, and order tracking.",
+          duration: "2 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built custom e-commerce website with Python backend and modern frontend for optimal user experience.",
+          duration: "5 weeks"
+        },
+        {
+          title: "Testing & Launch",
+          description: "Conducted thorough testing of payment processing and launched with ongoing support.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Sales Increase", value: "+180%" },
+        { label: "Average Order Value", value: "+45%" },
+        { label: "Customer Satisfaction", value: "96%" }
+      ],
+      testimonial: {
+        quote: "The website perfectly captures the essence of our handmade soaps. Our customers love the detailed ingredient information and easy shopping experience.",
+        name: "Maria Rodriguez",
+        position: "Founder, SoapstoRis",
+        avatar: "https://randomuser.me/api/portraits/women/35.jpg"
+      },
+      architecture: "Python-based e-commerce platform with TensorFlow for recommendation engine, NLP for search functionality, and secure payment processing.",
+      performance: [
+        { metric: "Page Load Speed", score: 91 },
+        { metric: "Payment Security", score: 100 },
+        { metric: "Mobile Usability", score: 93 },
+        { metric: "Search Accuracy", score: 89 }
+      ]
+    },
+    {
+      id: 4,
+      title: "ELINE Technologies Website Development",
+      client: "ELINE Technologies",
+      category: "Technology Services",
+      description: "Elinetechnologies.com is a platform offering a range of tech solutions. The site provides services like web development, app design, and digital marketing.",
+      fullDescription: `Elinetechnologies.com is a platform offering a range of tech solutions. The site provides services like web development, app design, and digital marketing. This one-stop-shop approach simplifies the process for businesses seeking to enhance their online presence. By offering diverse services under one roof, elinetechnologies.com makes it convenient for clients to address multiple digital needs efficiently.`,
+      image: "/assets/image4.jpg",
+      gallery: [
+        "/assets/image4.jpg",
+        "/assets/image4-1.jpg",
+        "/assets/image4-2.jpg"
+      ],
+      technologies: ["React Native", "Firebase", "GraphQL"],
+      rating: 4.5,
+      duration: "3 months",
+      teamSize: "5 members",
+      impact: "+220% inquiries",
+      link: "https://elinetechnologies.com/",
+      challenge: "Creating a comprehensive technology services website that showcases diverse capabilities while maintaining professional credibility and generating quality leads.",
+      solution: "We developed a modern, professional website that effectively communicates technical expertise across multiple service areas with clear value propositions and easy contact methods.",
+      features: [
+        "Service portfolio showcase",
+        "Technology expertise display",
+        "Client case studies",
+        "Contact and inquiry forms",
+        "Blog and resources section",
+        "Team and company information",
+        "Project gallery",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Service Analysis",
+          description: "Analyzed all technology services to create comprehensive service descriptions and value propositions.",
+          duration: "1 week"
+        },
+        {
+          title: "Content Strategy",
+          description: "Developed content strategy to showcase technical expertise and build credibility in the market.",
+          duration: "2 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built React Native-based website with Firebase backend and GraphQL for efficient data management.",
+          duration: "8 weeks"
+        },
+        {
+          title: "Content & Launch",
+          description: "Added all content, conducted testing, and launched with ongoing optimization.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Inquiry Increase", value: "+220%" },
+        { label: "Service Page Views", value: "+190%" },
+        { label: "Contact Form Submissions", value: "+160%" }
+      ],
+      testimonial: {
+        quote: "The website perfectly represents our technical capabilities. We've seen a significant increase in quality inquiries from potential clients.",
+        name: "David Chen",
+        position: "CTO, ELINE Technologies",
+        avatar: "https://randomuser.me/api/portraits/men/41.jpg"
+      },
+      architecture: "React Native frontend with Firebase backend, GraphQL for data management, and responsive design optimized for technology services.",
       performance: [
         { metric: "Page Load Speed", score: 93 },
-        { metric: "Concurrent Users", score: 97 },
-        { metric: "Content Delivery", score: 95 },
-        { metric: "System Availability", score: 99.9 }
+        { metric: "Mobile Performance", score: 92 },
+        { metric: "Service Discovery", score: 88 },
+        { metric: "Lead Quality", score: 85 }
+      ]
+    },
+    {
+      id: 5,
+      title: "Heartland Trading Website Development",
+      client: "Heartland Trading",
+      category: "E-commerce",
+      description: "User-Friendly Interface: The website's easy-to-navigate interface ensures a smooth shopping experience. This makes finding and purchasing items hassle-free.",
+      fullDescription: `User-Friendly Interface: The website's easy-to-navigate interface ensures a smooth shopping experience. This makes finding and purchasing items hassle-free. Secure Transactions: Heartland-Trading.com prioritizes the security of online transactions. Customers can shop with confidence knowing their information is protected. Heartland-Trading.com stands out for its quality products, user-friendly interface, and commitment to customer security, making it a reliable choice for online shopping.`,
+      image: "/assets/image5.jpg",
+      gallery: [
+        "/assets/image5.jpg",
+        "/assets/image5-1.jpg",
+        "/assets/image5-2.jpg"
+      ],
+      technologies: ["Next.js", "WebRTC", "Socket.io"],
+      rating: 4.4,
+      duration: "4 months",
+      teamSize: "6 members",
+      impact: "+300% transactions",
+      link: "https://heartland-trading.com/",
+      challenge: "Building a secure, user-friendly e-commerce platform that prioritizes customer security while providing smooth shopping experiences and reliable transaction processing.",
+      solution: "We developed a secure e-commerce platform with advanced security measures, intuitive navigation, and real-time features for enhanced customer experience.",
+      features: [
+        "Secure payment processing",
+        "User-friendly navigation",
+        "Product search and filtering",
+        "Shopping cart functionality",
+        "Order tracking system",
+        "Customer account management",
+        "Real-time notifications",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Security Analysis",
+          description: "Conducted comprehensive security analysis and implemented advanced security measures for e-commerce transactions.",
+          duration: "2 weeks"
+        },
+        {
+          title: "UX Design",
+          description: "Designed intuitive user interface focusing on ease of navigation and smooth shopping experience.",
+          duration: "3 weeks"
+        },
+        {
+          title: "Platform Development",
+          description: "Built Next.js-based e-commerce platform with WebRTC for real-time features and Socket.io for notifications.",
+          duration: "10 weeks"
+        },
+        {
+          title: "Security Testing",
+          description: "Conducted extensive security testing and performance optimization before launch.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Transaction Volume", value: "+300%" },
+        { label: "Security Score", value: "98%" },
+        { label: "User Satisfaction", value: "94%" }
+      ],
+      testimonial: {
+        quote: "The security and user experience of our new website has given our customers complete confidence in shopping with us.",
+        name: "James Wilson",
+        position: "Operations Manager, Heartland Trading",
+        avatar: "https://randomuser.me/api/portraits/men/38.jpg"
+      },
+      architecture: "Next.js e-commerce platform with WebRTC for real-time features, Socket.io for notifications, and advanced security measures for secure transactions.",
+      performance: [
+        { metric: "Security Score", score: 98 },
+        { metric: "Transaction Speed", score: 95 },
+        { metric: "User Experience", score: 94 },
+        { metric: "Mobile Performance", score: 92 }
+      ]
+    },
+    {
+      id: 6,
+      title: "Champika Export Marketing Website Development",
+      client: "Champika Export Marketing",
+      category: "Export Business",
+      description: "Champika Export Marketing's website showcases a variety of products and services. This online platform provides a convenient way for customers to explore the offerings and contact the company for further information.",
+      fullDescription: `Champika Export Marketing's website showcases a variety of products and services. This online platform provides a convenient way for customers to explore the offerings and contact the company for further information. The website's design and user interface play a crucial role in attracting potential clients and creating a positive impression of the business. This digital presence is essential for modern businesses to stay competitive in the global market.`,
+      image: "/assets/image6.jpg",
+      gallery: [
+        "/assets/image6.jpg",
+        "/assets/image6-1.jpg",
+        "/assets/image6-2.jpg"
+      ],
+      technologies: ["IoT", "React", "MQTT"],
+      rating: 4.3,
+      duration: "2 months",
+      teamSize: "4 members",
+      impact: "+150% exports",
+      link: "https://champikaexportmarketing.com/",
+      challenge: "Creating a professional export business website that effectively showcases products and services while building international credibility and facilitating global business connections.",
+      solution: "We developed a professional export business website with product showcases, company credentials, and easy contact methods optimized for international business development.",
+      features: [
+        "Product catalog with specifications",
+        "Company credentials and certifications",
+        "Export capabilities showcase",
+        "Contact and inquiry forms",
+        "Multi-language support",
+        "International shipping information",
+        "Quality assurance details",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Business Analysis",
+          description: "Analyzed export business requirements and identified key products and services to highlight.",
+          duration: "1 week"
+        },
+        {
+          title: "Content Development",
+          description: "Created professional content showcasing export capabilities and company credentials.",
+          duration: "2 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built React-based website with IoT integration and MQTT for real-time updates and monitoring.",
+          duration: "5 weeks"
+        },
+        {
+          title: "International Optimization",
+          description: "Optimized website for international audiences and launched with ongoing support.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Export Inquiries", value: "+150%" },
+        { label: "International Reach", value: "+200%" },
+        { label: "Business Credibility", value: "95%" }
+      ],
+      testimonial: {
+        quote: "Our website has opened doors to international markets we never thought possible. The professional presentation has built trust with global clients.",
+        name: "Champika Silva",
+        position: "Director, Champika Export Marketing",
+        avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      architecture: "React frontend with IoT integration, MQTT for real-time monitoring, and responsive design optimized for international export business.",
+      performance: [
+        { metric: "International Load Speed", score: 90 },
+        { metric: "Multi-language Support", score: 95 },
+        { metric: "Business Credibility", score: 94 },
+        { metric: "Lead Generation", score: 87 }
+      ]
+    },
+    {
+      id: 7,
+      title: "Ride With Me Website Development",
+      client: "Ride With Me",
+      category: "Transportation",
+      description: "RideWithMee.lk is a platform that connects riders with drivers for convenient and safe transportation. Riders can easily book rides through the website, ensuring a hassle-free experience.",
+      fullDescription: `RideWithMee.lk is a platform that connects riders with drivers for convenient and safe transportation. Riders can easily book rides through the website, ensuring a hassle-free experience. The platform offers a reliable and efficient way for users to travel to their destinations, making it a popular choice for those looking for transportation solutions.`,
+      image: "/assets/image7.jpg",
+      gallery: [
+        "/assets/image7.jpg",
+        "/assets/image7-1.jpg",
+        "/assets/image7-2.jpg"
+      ],
+      technologies: ["Solidity", "Ethereum", "Web3.js"],
+      rating: 4.2,
+      duration: "5 months",
+      teamSize: "8 members",
+      impact: "+400% bookings",
+      link: "https://ridewithmee.lk/",
+      challenge: "Creating a reliable transportation platform that connects riders with drivers while ensuring safety, convenience, and seamless booking experiences.",
+      solution: "We developed a comprehensive ride-sharing platform with blockchain integration for secure transactions, real-time tracking, and user safety features.",
+      features: [
+        "Easy ride booking system",
+        "Real-time driver tracking",
+        "Secure payment processing",
+        "User rating and review system",
+        "Safety features and emergency contacts",
+        "Driver verification system",
+        "Fare calculation and estimation",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Platform Architecture",
+          description: "Designed comprehensive ride-sharing platform architecture with focus on safety and user experience.",
+          duration: "2 weeks"
+        },
+        {
+          title: "Blockchain Integration",
+          description: "Integrated Solidity smart contracts with Ethereum blockchain for secure transactions and user verification.",
+          duration: "4 weeks"
+        },
+        {
+          title: "Core Development",
+          description: "Built ride booking system, driver matching, and real-time tracking features with Web3.js integration.",
+          duration: "12 weeks"
+        },
+        {
+          title: "Safety & Testing",
+          description: "Implemented safety features, conducted comprehensive testing, and launched with ongoing monitoring.",
+          duration: "2 weeks"
+        }
+      ],
+      metrics: [
+        { label: "Booking Volume", value: "+400%" },
+        { label: "User Safety Score", value: "97%" },
+        { label: "Driver Satisfaction", value: "92%" }
+      ],
+      testimonial: {
+        quote: "The platform has revolutionized transportation in our area. Users love the safety features and drivers appreciate the fair payment system.",
+        name: "Nimal Perera",
+        position: "Founder, Ride With Me",
+        avatar: "https://randomuser.me/api/portraits/men/29.jpg"
+      },
+      architecture: "Blockchain-based ride-sharing platform using Solidity smart contracts, Ethereum blockchain, and Web3.js for secure transactions and user verification.",
+      performance: [
+        { metric: "Transaction Security", score: 99 },
+        { metric: "Real-time Tracking", score: 96 },
+        { metric: "User Safety", score: 97 },
+        { metric: "Platform Reliability", score: 94 }
+      ]
+    },
+    {
+      id: 8,
+      title: "Twilight Blue Security Systems Website Development",
+      client: "Twilight Blue Security Systems",
+      category: "Security Services",
+      description: "Our mission is to help enterprises accelerate adoption of new technologies, untangle complex issues that always emerge during digital evolution, and orchestrate ongoing innovation.",
+      fullDescription: `Our mission is to help enterprises accelerate adoption of new technologies, untangle complex issues that always emerge during digital evolution, and orchestrate ongoing innovation. If you are looking for a trustworthy and reputable company to build your operational Security Systems or transform your systems. Thank you for reaching out to Twilight Blue! Please fill the form right.`,
+      image: "/assets/image8.jpg",
+      gallery: [
+        "/assets/image8.jpg",
+        "/assets/image8-1.jpg",
+        "/assets/image8-2.jpg"
+      ],
+      technologies: ["Unity", "ARKit", "C#"],
+      rating: 4.1,
+      duration: "3 months",
+      teamSize: "5 members",
+      impact: "+120% security contracts",
+      link: "https://tbsst.ae/",
+      challenge: "Creating a professional security systems website that builds trust and credibility while showcasing technical expertise in security solutions and digital transformation.",
+      solution: "We developed a comprehensive security services website with AR demonstrations, interactive features, and professional presentation of security solutions.",
+      features: [
+        "Security solutions showcase",
+        "AR-powered demonstrations",
+        "Interactive service presentations",
+        "Client testimonials and case studies",
+        "Contact and inquiry forms",
+        "Technology expertise display",
+        "Security certifications",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Security Analysis",
+          description: "Analyzed security industry requirements and identified key services and technologies to highlight.",
+          duration: "1 week"
+        },
+        {
+          title: "AR Development",
+          description: "Developed AR demonstrations using Unity and ARKit to showcase security solutions interactively.",
+          duration: "4 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built comprehensive website with C# backend and interactive features for security services presentation.",
+          duration: "6 weeks"
+        },
+        {
+          title: "Integration & Launch",
+          description: "Integrated AR features, conducted testing, and launched with ongoing support and updates.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Security Contracts", value: "+120%" },
+        { label: "AR Engagement", value: "+180%" },
+        { label: "Client Trust Score", value: "96%" }
+      ],
+      testimonial: {
+        quote: "The AR demonstrations on our website have been a game-changer. Clients can now see our security solutions in action before committing.",
+        name: "Ahmed Hassan",
+        position: "CEO, Twilight Blue Security Systems",
+        avatar: "https://randomuser.me/api/portraits/men/47.jpg"
+      },
+      architecture: "Unity-based AR demonstrations with ARKit integration, C# backend for security services, and interactive website for professional presentation.",
+      performance: [
+        { metric: "AR Performance", score: 92 },
+        { metric: "Security Credibility", score: 96 },
+        { metric: "Client Engagement", score: 89 },
+        { metric: "Mobile AR Support", score: 88 }
+      ]
+    },
+    {
+      id: 9,
+      title: "X-guard Website Development",
+      client: "X-guard",
+      category: "Security Services",
+      description: "AD CAUSAM SUPERIOREM We can tailor-fit services to meet your requirements and exceed expectations. Our highly skilled managers can sit with you to discuss the best-fit solution for you, and they will advise you on your needs.",
+      fullDescription: `AD CAUSAM SUPERIOREM We can tailor-fit services to meet your requirements and exceed expectations. Our highly skilled managers can sit with you to discuss the best-fit solution for you, and they will advise you on your needs.`,
+      image: "/assets/image9.jpg",
+      gallery: [
+        "/assets/image9.jpg",
+        "/assets/image9-1.jpg",
+        "/assets/image9-2.jpg"
+      ],
+      technologies: ["Python", "scikit-learn", "Flask"],
+      rating: 4.0,
+      duration: "2 months",
+      teamSize: "4 members",
+      impact: "+100% consultations",
+      link: "https://x-guard.lk/",
+      challenge: "Creating a professional security services website that emphasizes personalized solutions and expert consultation while building client trust and credibility.",
+      solution: "We developed a professional security services website with consultation booking, service customization features, and expert advisor profiles to showcase expertise.",
+      features: [
+        "Personalized service consultation",
+        "Expert advisor profiles",
+        "Service customization tools",
+        "Client consultation booking",
+        "Security assessment forms",
+        "Case studies and testimonials",
+        "Contact and inquiry system",
+        "Mobile-responsive design"
+      ],
+      processSteps: [
+        {
+          title: "Service Analysis",
+          description: "Analyzed security services and consultation processes to create effective service presentation and booking system.",
+          duration: "1 week"
+        },
+        {
+          title: "Consultation System",
+          description: "Developed consultation booking system and expert advisor matching using Python and scikit-learn.",
+          duration: "3 weeks"
+        },
+        {
+          title: "Website Development",
+          description: "Built Flask-based website with consultation features and professional service presentation.",
+          duration: "4 weeks"
+        },
+        {
+          title: "Testing & Launch",
+          description: "Conducted testing of consultation system and launched with ongoing optimization.",
+          duration: "1 week"
+        }
+      ],
+      metrics: [
+        { label: "Consultation Bookings", value: "+100%" },
+        { label: "Service Customization", value: "+150%" },
+        { label: "Client Satisfaction", value: "94%" }
+      ],
+      testimonial: {
+        quote: "The consultation system has streamlined our client onboarding process. Clients appreciate the personalized approach and expert guidance.",
+        name: "Lisa Thompson",
+        position: "Security Consultant, X-guard",
+        avatar: "https://randomuser.me/api/portraits/women/39.jpg"
+      },
+      architecture: "Flask-based website with Python backend, scikit-learn for consultation matching, and responsive design optimized for security services consultation.",
+      performance: [
+        { metric: "Consultation Matching", score: 91 },
+        { metric: "Service Personalization", score: 89 },
+        { metric: "Client Onboarding", score: 93 },
+        { metric: "Expert Availability", score: 87 }
       ]
     }
   ];
@@ -533,16 +698,7 @@ const PortfolioShowcase = () => {
     }
   ];
 
-  // Filter categories
-  const categories = [
-    { value: 'all', label: 'All Projects', icon: 'Grid3X3' },
-    { value: 'Web Application', label: 'Web Apps', icon: 'Globe' },
-    { value: 'Mobile App', label: 'Mobile Apps', icon: 'Smartphone' },
-    { value: 'Enterprise Software', label: 'Enterprise', icon: 'Building' },
-    { value: 'Healthcare App', label: 'Healthcare', icon: 'Heart' },
-    { value: 'Blockchain App', label: 'Blockchain', icon: 'Link' },
-    { value: 'E-learning Platform', label: 'E-learning', icon: 'BookOpen' }
-  ];
+
 
   // Extract unique technologies
   const allTechnologies = useMemo(() => {
@@ -564,7 +720,7 @@ const PortfolioShowcase = () => {
 
     // Filter by technology
     if (selectedTechnology) {
-      filtered = filtered?.filter(project => 
+      filtered = filtered?.filter(project =>
         project?.technologies?.includes(selectedTechnology)
       );
     }
@@ -600,12 +756,12 @@ const PortfolioShowcase = () => {
   const getGridClasses = () => {
     switch (viewMode) {
       case 'list':
-        return 'grid grid-cols-1 gap-6';
+        return 'grid grid-cols-1 gap-4 sm:gap-6';
       case 'masonry':
-        return 'columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6';
+        return 'columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 space-y-4 sm:space-y-6';
       case 'grid':
       default:
-        return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6';
     }
   };
 
@@ -639,38 +795,17 @@ const PortfolioShowcase = () => {
                 <Icon name="Sparkles" size={16} className="text-primary" />
                 <span className="text-sm font-medium text-glass-text-secondary">Portfolio Dimension Zones</span>
               </div>
-              
-              <h1 className="text-4xl md:text-6xl font-bold text-glass-text-primary mb-6">
+
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-glass-text-primary mb-4 sm:mb-6">
                 Crafted Digital
                 <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Experiences
                 </span>
               </h1>
-              
-              <p className="text-xl text-glass-text-secondary max-w-3xl mx-auto mb-8">
+
+              <p className="text-lg sm:text-xl text-glass-text-secondary max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
                 Explore our portfolio through interactive 3D glass containers, where each project exists in its own dimensional space with unique refractions and immersive storytelling.
               </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-glass-subtle"
-                  iconName="Play"
-                  iconPosition="left"
-                >
-                  Start 3D Tour
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="glass-interactive border-primary/20 text-primary hover:bg-primary/10"
-                  iconName="Download"
-                  iconPosition="left"
-                >
-                  Download Portfolio
-                </Button>
-              </div>
             </motion.div>
 
             {/* Portfolio Stats */}
@@ -682,36 +817,18 @@ const PortfolioShowcase = () => {
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Filter Bar */}
-            <FilterBar
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              technologies={allTechnologies}
-              selectedTechnology={selectedTechnology}
-              onTechnologyChange={setSelectedTechnology}
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              viewMode={viewMode}
-              onViewModeChange={setViewMode}
-            />
-
             {/* Results Count */}
             <motion.div
-              className="flex items-center justify-between mb-8"
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
               <div className="flex items-center space-x-2">
                 <Icon name="Filter" size={16} className="text-glass-text-secondary" />
-                <span className="text-glass-text-secondary">
+                <span className="text-sm sm:text-base text-glass-text-secondary">
                   Showing {filteredProjects?.length} of {portfolioProjects?.length} projects
                 </span>
-              </div>
-              
-              <div className="flex items-center space-x-2 text-sm text-glass-text-secondary">
-                <Icon name="Layers" size={14} />
-                <span>3D Interactive Mode</span>
               </div>
             </motion.div>
 
@@ -772,11 +889,11 @@ const PortfolioShowcase = () => {
               transition={{ duration: 0.8 }}
             >
               <Icon name="Sparkles" size={48} className="text-primary mx-auto mb-6" />
-              
+
               <h2 className="text-3xl md:text-4xl font-bold text-glass-text-primary mb-4">
                 Ready to Create Something Amazing?
               </h2>
-              
+
               <p className="text-xl text-glass-text-secondary mb-8 max-w-2xl mx-auto">
                 Let's collaborate to bring your vision to life with cutting-edge technology and innovative design approaches.
               </p>

@@ -86,6 +86,7 @@ const Header = () => {
     { name: 'Portfolio', path: '/portfolio', icon: 'Folder' },
     { name: 'Blogs', path: '/blogs', icon: 'FileText' },
     { name: 'Contact Us', path: '/contact', icon: 'FileText' },
+    { name: 'Store', path: '/store', icon: 'ShoppingCart' },
   ];
 
   // Dropdown items for the new 'Why choose us' tab

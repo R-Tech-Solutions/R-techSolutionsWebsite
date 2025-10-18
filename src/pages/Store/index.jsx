@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
+import Header from '../../components/ui/Header';
 import StoreHeader from './components/StoreHeader';
-import FilterBar from './components/FilterBar';
+import FilterIcon from './components/FilterIcon';
+import FilterPopup from './components/FilterPopup';
 import ProductGrid from './components/ProductGrid';
 import ProductModal from './components/ProductModal';
 import { products, categories, priceRanges } from './data';
@@ -12,6 +14,8 @@ const Store = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isFilterPopupOpen, setIsFilterPopupOpen] = useState(false);
+  const [activeFilterType, setActiveFilterType] = useState(null);
 
   // Filter products based on selected criteria
   const filteredProducts = useMemo(() => {
@@ -72,6 +76,25 @@ const Store = () => {
     setSearchQuery('');
   };
 
+  const handleFilterIconClick = (filterType) => {
+    setActiveFilterType(filterType);
+    setIsFilterPopupOpen(true);
+  };
+
+  const handleCloseFilterPopup = () => {
+    setIsFilterPopupOpen(false);
+    setActiveFilterType(null);
+  };
+
+  // Calculate active filter count
+  const getActiveFilterCount = () => {
+    let count = 0;
+    if (selectedCategory !== 'All') count++;
+    if (selectedPriceRange !== 0) count++;
+    if (searchQuery.trim()) count++;
+    return count;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Background Pattern */}
@@ -84,6 +107,9 @@ const Store = () => {
 
       {/* Main Content */}
       <div className="relative z-10">
+        {/* Main Header */}
+        <Header />
+        
         {/* Header Section */}
         <div className="container mx-auto px-4 py-8">
           <StoreHeader 
@@ -94,35 +120,54 @@ const Store = () => {
 
         {/* Store Content */}
         <div className="container mx-auto px-4 pb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar - Filters */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-8">
-                <FilterBar
-                  categories={categories}
-                  priceRanges={priceRanges}
-                  selectedCategory={selectedCategory}
-                  selectedPriceRange={selectedPriceRange}
-                  searchQuery={searchQuery}
-                  onCategoryChange={handleCategoryChange}
-                  onPriceRangeChange={handlePriceRangeChange}
-                  onSearchChange={handleSearchChange}
-                  onClearFilters={handleClearFilters}
-                  totalProducts={products.length}
-                  filteredCount={filteredProducts.length}
-                />
-              </div>
-            </div>
-
-            {/* Main Content - Products */}
-            <div className="lg:col-span-3">
-              <ProductGrid
-                products={filteredProducts}
-                onProductClick={handleProductClick}
-                isLoading={isLoading}
+          {/* Filter Icons Bar */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <FilterIcon
+                type="search"
+                isActive={!!searchQuery.trim()}
+                onClick={() => handleFilterIconClick('search')}
+                count={searchQuery.trim() ? 1 : 0}
               />
+              <FilterIcon
+                type="category"
+                isActive={selectedCategory !== 'All'}
+                onClick={() => handleFilterIconClick('category')}
+                count={selectedCategory !== 'All' ? 1 : 0}
+              />
+              <FilterIcon
+                type="price"
+                isActive={selectedPriceRange !== 0}
+                onClick={() => handleFilterIconClick('price')}
+                count={selectedPriceRange !== 0 ? 1 : 0}
+              />
+              {getActiveFilterCount() > 0 && (
+                <FilterIcon
+                  type="clear"
+                  isActive={false}
+                  onClick={handleClearFilters}
+                  count={0}
+                />
+              )}
             </div>
+            
+            {/* Active Filters Summary */}
+            {getActiveFilterCount() > 0 && (
+              <div className="mt-4 text-center lg:text-left">
+                <p className="text-sm text-muted-foreground">
+                  Showing {filteredProducts.length} of {products.length} products
+                  {getActiveFilterCount() > 0 && ` • ${getActiveFilterCount()} filter${getActiveFilterCount() > 1 ? 's' : ''} active`}
+                </p>
+              </div>
+            )}
           </div>
+
+          {/* Products Grid */}
+          <ProductGrid
+            products={filteredProducts}
+            onProductClick={handleProductClick}
+            isLoading={isLoading}
+          />
         </div>
       </div>
 
@@ -133,61 +178,23 @@ const Store = () => {
         onClose={handleCloseModal}
       />
 
-      {/* Floating Action Button for Mobile */}
-      <div className="fixed bottom-6 right-6 z-40 lg:hidden">
-        <button
-          onClick={() => {
-            const filterElement = document.querySelector('[data-filter-bar]');
-            if (filterElement) {
-              filterElement.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-          className="w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-glass-interactive hover:shadow-glass flex items-center justify-center transition-all duration-300 hover:scale-110"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile Filter Overlay */}
-      <div className="lg:hidden">
-        <div 
-          data-filter-bar
-          className="fixed inset-x-0 bottom-0 z-30 transform translate-y-full transition-transform duration-300 bg-background border-t border-border p-4 max-h-[80vh] overflow-y-auto"
-          style={{ display: 'none' }}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-card-foreground">Filters</h3>
-            <button
-              onClick={() => {
-                const filterElement = document.querySelector('[data-filter-bar]');
-                if (filterElement) {
-                  filterElement.style.display = 'none';
-                }
-              }}
-              className="p-2 rounded-full hover:bg-secondary transition-colors duration-200"
-            >
-              <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <FilterBar
-            categories={categories}
-            priceRanges={priceRanges}
-            selectedCategory={selectedCategory}
-            selectedPriceRange={selectedPriceRange}
-            searchQuery={searchQuery}
-            onCategoryChange={handleCategoryChange}
-            onPriceRangeChange={handlePriceRangeChange}
-            onSearchChange={handleSearchChange}
-            onClearFilters={handleClearFilters}
-            totalProducts={products.length}
-            filteredCount={filteredProducts.length}
-          />
-        </div>
-      </div>
+      {/* Filter Popup */}
+      <FilterPopup
+        isOpen={isFilterPopupOpen}
+        onClose={handleCloseFilterPopup}
+        categories={categories}
+        priceRanges={priceRanges}
+        selectedCategory={selectedCategory}
+        selectedPriceRange={selectedPriceRange}
+        searchQuery={searchQuery}
+        onCategoryChange={handleCategoryChange}
+        onPriceRangeChange={handlePriceRangeChange}
+        onSearchChange={handleSearchChange}
+        onClearFilters={handleClearFilters}
+        totalProducts={products.length}
+        filteredCount={filteredProducts.length}
+        filterType={activeFilterType}
+      />
     </div>
   );
 };
