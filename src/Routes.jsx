@@ -18,6 +18,7 @@ import PostPage from './pages/Blogs/Post'
 import Pricing from './pages/Pricing'
 import AppsList from './pages/apps/AppsList';
 import Faqs from './pages/Faqs';
+import Store from './pages/Store';
 import Footer from './components/ui/Footer';
 
 const Routes = () => {
@@ -58,6 +59,7 @@ function InnerRoutes() {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:id" element={<PostPage />} />
         <Route path="/faqs" element={<Faqs />} />
+        <Route path="/store" element={<Store />} />
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
 
